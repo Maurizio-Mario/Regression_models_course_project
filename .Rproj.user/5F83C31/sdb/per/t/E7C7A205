@@ -1,0 +1,18 @@
+{
+    "contents" : "---\ntitle: \"Regression models course project\"\nauthor: \"Maurizio Murino\"\ndate: \"25 February 2016\"\noutput: word_document\n---\n\n#1. Introduction\n\nYou work for Motor Trend, a magazine about the automobile industry. Looking at a data set of a collection of cars, they are interested in exploring the relationship between a set of variables and miles per gallon (MPG) (outcome). They are particularly interested in the following two questions:\n\n“Is an automatic or manual transmission better for MPG”\n\"Quantify the MPG difference between automatic and manual transmissions\"\n\n#2. Exploration\n\n`mtcars` counts 32 observations on 11 variables. pairs() allows us to sketch a rapid idea of the relations between the variables that we would like to explore in the second part of the analysis.\n\n```{r exploration 1}\npairs(mtcars)\n```\n\nOperativelly, we explore the relationship between miles-per-gallon (MPG) and other variables in the `mtcars` data set. \n\n```{r exploration 2}\ndim(mtcars)\nstr(mtcars)\nsummary(mtcars)\n```\n\n#3. Analysis\n\nAs told before, we focus on the relationship between `mpg` (Miles/(US) gallon) and `am` (Transmission). \n\n```{r analysis 1}\ndata(mtcars)\nboxplot(mpg ~ am, data = mtcars, xlab = \"Transmission (0 = automatic, 1 = manual)\", main = \"Miles/gallon per transmission\")\n```\n\nManual transmission has, in appearance, a role in favorably increase the average vehicle consumption.\n\nTo have a further confirm, we have to have an idea of the other predictors of the dataset. An ANOVA model can turn in use.\n\n```{r analysis 2}\nanova1 <- aov(mpg ~ ., data = mtcars)\nsummary(anova1)\n```\n\nBecause of the low p-value (below 0.05), we will consider the variables `cyl`, `disp`, `wt`, `drat`, `am` as more interesting predictor variables.\n\n```{r analysis 3}\nlm1 <- lm(mpg ~ cyl + disp + wt + drat + am, data = mtcars)\nsummary(lm1)\n```\n\n`drat` and `disp` has a really high coefficient, they could be of some disturb. We try to make the approach more precise by cutting uit from the model.\n\n```{r analysis 4}\nlm2 <- lm(mpg ~ cyl + wt + am, data = mtcars)\nsummary(lm2)\n```\n\nThe adjusted r-squared is 0.83. We cannot reject the hypothesis that the coefficient of am is 0.\n\n#4. Diagnosis\n\n```{r Diagnosis  1}\npar(mfrow = c(2, 2))\nplot(lm2)\n```\n\nAppearently, there is not a relevant pattern found according to upper left graph. The `normal Q-Q` suggests the model mets the normality assumption. `Scale-Location` shows constant variance assumption are satisfied. We can conclude that weight and number of cylinders play important role to determination of `mpg`.\n\n",
+    "created" : 1456409818471.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3904702895",
+    "id" : "E7C7A205",
+    "lastKnownWriteTime" : 1456416102,
+    "path" : "C:/Users/MaurizioLocale/OneDrive/Data_Science/7 Regression_models/Regression_models_course_project/course_project_code.Rmd",
+    "project_path" : "course_project_code.Rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}
